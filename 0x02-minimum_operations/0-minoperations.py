@@ -17,14 +17,11 @@ def minOperations(n):
             copy = paste
             paste += copy
             num_ops += 2
-            
         elif n - paste > 0 and (n - paste) % paste == 0:
             copy = paste
             paste += copy
             num_ops += 2
-            
         elif copy > 0:
             paste += copy
             num_ops += 1
-            
     return num_ops
