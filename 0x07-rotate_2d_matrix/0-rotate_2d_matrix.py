@@ -13,6 +13,9 @@ def rotate_2d_matrix(matrix):
     if not all(map(lambda x: type(x) == list, matrix)):
         return
     n = len(matrix)
+	cols = len(matrix[0])
+    if not all(map(lambda x: len(x) == cols, matrix)):
+        return
     # Transpose the matrix
     for i in range(n):
         for j in range(i, n):
