@@ -7,6 +7,8 @@ def isWinner(x, nums):
     """Determines the winner of a prime game session with `x` rounds.
     """
     winner = None
+    if x < 1 or not nums:
+        return None
 
     for i in range(x):
         n = nums[i]
