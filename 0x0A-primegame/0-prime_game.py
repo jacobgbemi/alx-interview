@@ -4,46 +4,30 @@
 
 
 def isWinner(x, nums):
-    """Determines the winner of a prime game session with `x` rounds.
-    """
-    winner = None
+    """Determines the winner of a prime game session with `x` rounds."""
     if x < 1 or not nums:
         return None
-
-    for i in range(x):
-        n = nums[i]
-        primes = []
-        is_prime = [True] * (n+1)
-        is_prime[0] = is_prime[1] = False
-
-        # Use Sieve of Eratosthenes to find all primes
-        for p in range(2, n+1):
-            if is_prime[p]:
-                primes.append(p)
-                for multiple in range(2*p, n+1, p):
-                    is_prime[multiple] = False
-
-        # Play the game
-        current_player = "Maria"
-        while primes:
-            # Choose a prime number to remove
-            prime = primes.pop(0)
-            multiples = [num for num in range(prime, n+1, prime)]
-
-            # Remove the prime and its multiples from the set
-            for multiple in multiples:
-                if multiple in primes:
-                    primes.remove(multiple)
-
-            # Check if the game is over
-            if not primes:
-                winner = current_player
-                break
-
-            # Switch to the other player's turn
-            if current_player == "Maria":
-                current_player = "Ben"
-            else:
-                current_player = "Maria"
-
-    return winner
+    
+    marias_wins = 0
+    bens_wins = 0
+    
+    # generate primes with a limit of the maximum number in nums
+    n = max(nums)
+    primes = [True] * (n + 1)
+    primes[0] = primes[1] = False
+    
+    for i in range(2, int(n**0.5) + 1):
+        if primes[i]:
+            for j in range(i**2, n + 1, i):
+                primes[j] = False
+    
+    # count the number of primes less than n in nums for each round
+    for n in nums:
+        primes_count = sum(primes[2:n+1])
+        bens_wins += primes_count % 2 == 0
+        marias_wins += primes_count % 2 == 1
+    
+    if marias_wins == bens_wins:
+        return None
+    
+    return 'Maria' if marias_wins > bens_wins else 'Ben'
